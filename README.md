@@ -3,6 +3,7 @@ Test for possible react hook form bug
 
 
 # Running 
+navigate to the web folder ie `cd web`
 use `npm i` then run `npm start`
 
 to run in production build use `npm run build` then follow [these steps](https://create-react-app.dev/docs/deployment#static-server)
