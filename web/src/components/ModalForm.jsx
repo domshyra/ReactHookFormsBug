@@ -233,7 +233,7 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 						</Alert>
 					</Collapse>
 				</Grid>
-				<DevTool control={methods.control} />
+				{process.env.NODE_ENV === "development" ? <DevTool control={methods.control} /> : null}
 			</Box>
 		</FormProvider>
 	);
