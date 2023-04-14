@@ -25,28 +25,7 @@ const numberFieldRulesWithMax = {
 	},
 };
 
-const ModalForm = ({ onSave, setShowModal }) => {
-	const data = {
-		textField: "1",
-		checkboxesNumbered: {
-			quarterly: false,
-			semiAnnual: false,
-			annual: true,
-			none: false,
-		},
-		checkboxesLettered: {
-			twentyPercent: false,
-			fifteenPercent: false,
-			tenPercent: true,
-			fivePercent: false,
-			zeroPercent: false,
-		},
-		percentCoverageProvided: "",
-		radioButtonIds: "addition",
-		customCredit: 0,
-		id: "00f8602b-0d81-4974-ae44-512a23e2db88",
-	};
-
+const ModalForm = ({ onSave, data, setShowModal }) => {
 	const isNewForm = Object.keys(data).length === 0;
 	const [formValues, setFormValues] = useState(isNewForm ? {} : data);
 	const [credit, setCredit] = useState(0);

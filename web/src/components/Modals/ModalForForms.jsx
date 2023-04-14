@@ -12,7 +12,7 @@ import React from "react";
  * @returns
  */
 //For code examples look how ApparatusForm and FireStation form are used. This will probably called by DataGridWithModal
-const ModalForForms = ({ formId, disabled, showModal, handleClose, children, maxWidth = "md" }) => {
+const ModalForForms = ({ formId, showModal, handleClose, children, maxWidth = "md" }) => {
 	const methods = useForm({
 		mode: "onChange",
 	});
@@ -28,14 +28,13 @@ const ModalForForms = ({ formId, disabled, showModal, handleClose, children, max
 				color="primary"
 				align="right"
 				variant="contained"
-				disabled={disabled || !methods.formState.isDirty || !methods.formState.isValid}
+				disabled={!methods.formState.isDirty || !methods.formState.isValid}
 			>
 				{isCreateForm ? "Create" : "Save"}
 			</LoadingButton>
 		);
 	};
 
-	debugger;
 	return (
 		<FormProvider {...methods}>
 			<DialogModal
