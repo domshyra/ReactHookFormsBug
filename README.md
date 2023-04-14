@@ -1,5 +1,5 @@
 # ReactHookFormsBug
-Test for possible react hook form bug
+This is a strange usecase where local dev works but when the app is build for production the bug will occur. 
 
 
 # Running 
