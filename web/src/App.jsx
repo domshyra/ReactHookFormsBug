@@ -35,7 +35,6 @@ function App() {
 			fivePercent: false,
 			zeroPercent: false,
 		},
-		percentCoverageProvided: "",
 		radioButtonIds: "addition",
 		customCredit: 0,
 		id: "00f8602b-0d81-4974-ae44-512a23e2db88",

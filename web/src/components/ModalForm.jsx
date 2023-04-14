@@ -89,7 +89,6 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 
 	const recalculateCredit = () => {
 		setShowValidationError(false);
-		debugger;
 		const credit = calculateCredit(methods.getValues());
 		if (credit > 100) {
 			setShowValidationError(true);
@@ -126,7 +125,9 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
-						<Typography variant="button">Checkboxes Numbered</Typography>
+						<Grid item xs={12}>
+							<Typography variant="button">Checkboxes Numbered</Typography>
+						</Grid>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.quarterly"
 							label="Checkbox 1 - 45%"
@@ -213,16 +214,6 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 								/>
 							</Grid>
 						</Grid>
-					</Grid>
-
-					<Grid item xs={6} pb={2}>
-						<FormTextItem
-							gridColumns={8}
-							name="percentCoverageProvided"
-							label="% of Coverage Provided to Community"
-							loaded={loaded}
-							rules={numberFieldRulesWithMax}
-						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
 						<Typography variant="h6" sx={{ paddingTop: 2 }}>
