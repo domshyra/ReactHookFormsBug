@@ -16,7 +16,8 @@ This will behave correctly if running in development mode.
 The text field can change and word correctly, in addtion to the radio button. However the checkboxes do not behave the same. 
 
 # Expected Behavior 
-//TODO
+![ezgif com-optimize (1)](https://user-images.githubusercontent.com/1061957/232148517-9243bbc0-e40e-4c01-8048-4d424a8f6eab.gif)
+
 
 # Actual Behavior 
-//TODO 
+![ezgif com-optimize](https://user-images.githubusercontent.com/1061957/232148533-be8ce924-ed78-4b49-8735-33d6207a1081.gif)
