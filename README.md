@@ -1,4 +1,6 @@
 # ReactHookFormsBug
+In this Branch the code was changed manually set values and dirty them. Still doesn't work but keeping alive for a show of work
+
 This is a strange usecase where local dev works but when the app is build for production the bug will occur. 
 
 
