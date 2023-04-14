@@ -51,7 +51,7 @@ function App() {
 			>
 				{`show modal`}
 			</Button>
-			<ModalForForms formId={"form"} showModal={showModal} handleClose={handleClose}>
+			<ModalForForms formId={"modalForm"} showModal={showModal} handleClose={handleClose}>
 				<ModalForm onSave={onSave} setShowModal={setShowModal} data={data} />
 			</ModalForForms>
 		</Grid>
