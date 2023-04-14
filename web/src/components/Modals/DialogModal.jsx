@@ -17,7 +17,7 @@ const DialogModal = ({ showModal, handleClose, children, maxWidth = "md", confir
 					{confirmButton}
 				</Grid>
 				<Grid container justifyContent={"flex-end"}>
-					<Button onClick={handleClose} color={"neutral"}>
+					<Button onClick={handleClose} color={"secondary"}>
 						Close
 					</Button>
 				</Grid>

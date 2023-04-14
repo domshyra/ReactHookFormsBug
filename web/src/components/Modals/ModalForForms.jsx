@@ -35,6 +35,7 @@ const ModalForForms = ({ formId, disabled, showModal, handleClose, children, max
 		);
 	};
 
+	debugger;
 	return (
 		<FormProvider {...methods}>
 			<DialogModal

@@ -3,17 +3,31 @@ import { FormProvider, useFormContext } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { ControlledRadioButtonGroupItem } from "../../SharedComponents/FieldItems/RadioButtons/RadioButtonGroupItem";
+import { ControlledRadioButtonGroupItem } from "./RadioButtonGroupItem";
 import { DevTool } from "@hookform/devtools";
-import { FormCheckBoxItem } from "./FormTextItem";
+import { FormCheckBoxItem } from "./FormCheckBoxItem";
 import FormTextItem from "./FormTextItem";
-import { numberFieldRulesWithMax } from "../../../tools/validationRules";
-import { theme } from "../../../styles/theme";
-import { v4 as uuidv4 } from "uuid";
+import { calculateCredit } from "./calculations";
 
-const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
+const numberFieldRulesWithMax = {
+	required: false,
+	min: {
+		value: 0,
+		message: `Please adjust field to be greater than or equal to 0%`,
+	},
+	max: {
+		value: 100,
+		message: `Please adjust field to not exceed 100%`,
+	},
+	pattern: {
+		value: /^[0-9\b]+$/,
+		message: `Please adjust field to not contain letters or special characters`,
+	},
+};
+
+const ModalForm = ({ onSave, setShowModal }) => {
 	const data = {
-		departmentName: "1",
+		textField: "1",
 		checkboxesNumbered: {
 			quarterly: false,
 			semiAnnual: false,
@@ -44,24 +58,9 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 
 	const loaded = true;
 
-	const calculateCredit = (values) => {
-		let value = values.reduce((acc, curr) => {
-			debugger;
-			if (curr.value === true) {
-				acc += curr.credit;
-			}
-			return acc;
-		}, 0);
-
-		debugger;
-		let totalCredit = 0;
-
-		return totalCredit;
-	};
-
 	const onFormSubmit = (data) => {
 		if (!data.id) {
-			data.id = uuidv4();
+			data.id = "Some guid";
 		}
 		data = { ...data, credit };
 		onSave(data)
@@ -111,7 +110,8 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 
 	const recalculateCredit = () => {
 		setShowValidationError(false);
-		const credit = calculateCredit(methods.getValues(), isFiveToFifteen);
+		debugger;
+		const credit = calculateCredit(methods.getValues());
 		if (credit > 100) {
 			setShowValidationError(true);
 		}
@@ -144,7 +144,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							gridColumns={5}
 							loaded={loaded}
 							required={true}
-							disabled={disabled}
 						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
@@ -155,7 +154,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesNumbered.quarterly ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.semiAnnual"
@@ -163,7 +161,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesNumbered.semiAnnual ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.annual"
@@ -171,7 +168,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesNumbered.annual ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.none"
@@ -179,7 +175,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesNumbered.none ?? false}
-							disabled={disabled}
 						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
@@ -192,7 +187,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesLettered.twentyPercent ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.fifteenPercent"
@@ -200,7 +194,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesLettered.fifteenPercent ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.tenPercent"
@@ -208,7 +201,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesLettered.tenPercent ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.fivePercent"
@@ -216,7 +208,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesLettered.fivePercent ?? false}
-							disabled={disabled}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.zeroPercent"
@@ -224,7 +215,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							loaded={loaded}
 							onChange={recalculateCredit}
 							selected={formValues.checkboxesLettered.zeroPercent ?? false}
-							disabled={disabled}
 						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
@@ -241,7 +231,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 									value={formValues.radioButtonIds}
 									buttons={radioButtons}
 									onRadioButtonChange={handleRadioButtons}
-									disabled={disabled}
 								/>
 							</Grid>
 						</Grid>
@@ -254,7 +243,6 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							label="% of Coverage Provided to Community"
 							loaded={loaded}
 							rules={numberFieldRulesWithMax}
-							disabled={disabled}
 						/>
 					</Grid>
 					<Grid item xs={6} pb={2}>
@@ -262,7 +250,7 @@ const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
 							Total Modal Form Credit: {credit}
 						</Typography>
 						{showValidationError ? (
-							<Typography variant="caption" sx={{ color: theme.palette.error.main }} textAlign="right">
+							<Typography variant="caption" textAlign="right">
 								Total Modal Form Credit cannot exceed 100%
 							</Typography>
 						) : null}

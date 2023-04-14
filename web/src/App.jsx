@@ -21,26 +21,20 @@ function App() {
 	}
 
 	return (
-		<>
-			<div className="App">
-				<header className="App-header"></header>
-				<Grid container style={{ display: "flex", height: "100%" }}>
-					<Button
-						onClick={handleClickOpen}
-						color="primary"
-						variant="contained"
-						title={`show modal`}
-						aria-label={`show modal`}
-					>
-						{`show modal`}
-					</Button>
-				</Grid>
-			</div>
-
-			<ModalForForms key={"someKey"} formId={"form"} showModal={showModal} handleClose={handleClose}>
-				{React.cloneElement(<ModalForm onSave={onSave} />, { setShowModal })}
+		<Grid container style={{ display: "flex", height: "100%" }}>
+			<Button
+				onClick={handleClickOpen}
+				color="primary"
+				variant="contained"
+				title={`show modal`}
+				aria-label={`show modal`}
+			>
+				{`show modal`}
+			</Button>
+			<ModalForForms formId={"form"} showModal={showModal} handleClose={handleClose}>
+				{React.cloneElement(<ModalForm onSave={onSave} setShowModal={setShowModal} />, { setShowModal })}
 			</ModalForForms>
-		</>
+		</Grid>
 	);
 }
 
