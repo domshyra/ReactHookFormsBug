@@ -21,5 +21,5 @@ once the user clicks a checkbox the save button should be enabled since the form
 
 
 # Actual Behavior 
-It takes two clicks for a checkbox to set the form state to dirty when build with production
+It takes two clicks for a checkbox to set the form state to dirty when build with production. After the second click it will behave as normal. But on first time it doesn't work. Hard refresh after opening to get the behavior to repeat again. Seems fine after the first check and un check but will not work the very first time. 
 ![ezgif com-optimize](https://user-images.githubusercontent.com/1061957/232148533-be8ce924-ed78-4b49-8735-33d6207a1081.gif)
