@@ -13,7 +13,7 @@ to run in production build use `npm run build` then follow [these steps](https:/
 If you click 'show modal' and change a checkbox button, letter or numbered, it will not dirty the form on the first attempt when running a production build of react. 
 This will behave correctly if running in development mode. 
 
-The text field can change and word correctly, in addtion to the radio button. However the checkboxes do not behave the same. 
+The text field can change correctly, in addtion to the radio button. However the checkboxes do not behave the same. 
 
 # Expected Behavior 
 once the user clicks a checkbox the save button should be enabled since the form state is now dirty
