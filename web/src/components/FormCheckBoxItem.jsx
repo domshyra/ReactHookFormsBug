@@ -6,12 +6,12 @@ import Skeleton from "@mui/material/Skeleton";
 import { useFormContext } from "react-hook-form";
 
 export const FormCheckBoxItem = ({ name, label, loaded, disabled, selected, onChange: parentOnChange = () => {} }) => {
+	const { control } = useFormContext();
+
 	return (
-		<FormControlLabelItem
+		<Controller
+			control={control}
 			name={name}
-			label={label}
-			loaded={loaded}
-			disabled={disabled}
 			render={({ field, fieldState: { error } }) => (
 				<FormControlLabel
 					control={
