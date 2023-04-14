@@ -1,0 +1,300 @@
+import { Alert, Box, Collapse, Grid, IconButton, Typography } from "@mui/material";
+import { FormProvider, useFormContext } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+
+import CloseIcon from "@mui/icons-material/Close";
+import { ControlledRadioButtonGroupItem } from "../../SharedComponents/FieldItems/RadioButtons/RadioButtonGroupItem";
+import { DevTool } from "@hookform/devtools";
+import { FormCheckBoxItem } from "./FormTextItem";
+import FormTextItem from "./FormTextItem";
+import { numberFieldRulesWithMax } from "../../../tools/validationRules";
+import { theme } from "../../../styles/theme";
+import { v4 as uuidv4 } from "uuid";
+
+const ModalForm = ({ onSave, setShowModal, isFiveToFifteen, disabled }) => {
+	const data = {
+		departmentName: "1",
+		checkboxesNumbered: {
+			quarterly: false,
+			semiAnnual: false,
+			annual: true,
+			none: false,
+		},
+		checkboxesLettered: {
+			twentyPercent: false,
+			fifteenPercent: false,
+			tenPercent: true,
+			fivePercent: false,
+			zeroPercent: false,
+		},
+		percentCoverageProvided: "",
+		radioButtonIds: "addition",
+		customCredit: 0,
+		id: "00f8602b-0d81-4974-ae44-512a23e2db88",
+	};
+
+	const isNewForm = Object.keys(data).length === 0;
+	const [formValues, setFormValues] = useState(isNewForm ? {} : data);
+	const [credit, setCredit] = useState(0);
+	const [showAlert, setShowAlert] = useState(false);
+	const [serverErrors, setServerErrors] = useState("");
+	const [showValidationError, setShowValidationError] = useState(false);
+
+	const methods = useFormContext({ mode: "onChange" });
+
+	const loaded = true;
+
+	const calculateCredit = (values) => {
+		let value = values.reduce((acc, curr) => {
+			debugger;
+			if (curr.value === true) {
+				acc += curr.credit;
+			}
+			return acc;
+		}, 0);
+
+		debugger;
+		let totalCredit = 0;
+
+		return totalCredit;
+	};
+
+	const onFormSubmit = (data) => {
+		if (!data.id) {
+			data.id = uuidv4();
+		}
+		data = { ...data, credit };
+		onSave(data)
+			.then(() => {
+				setShowModal(false);
+				methods.reset();
+			})
+			.catch((error) => {
+				if (error?.status === 401 || error?.status === 403) {
+					//user is doing something they don't have access to
+					setServerErrors("Not allowed to save");
+				}
+				setShowAlert(true);
+				setServerErrors("Error saving Modal Form");
+				return;
+			});
+	};
+
+	const radioButtons = [
+		{ value: "addition", label: "Addition" },
+		{ value: "replacement", label: "Replacement" },
+	];
+
+	//Set error on formState if we have showValidationError, otherwise clear error and trigger validation so we can save
+	useEffect(() => {
+		if (showValidationError) {
+			methods.setError("creditField");
+		} else {
+			methods.clearErrors("creditField");
+			methods.trigger("creditField");
+		}
+	}, [showValidationError]);
+
+	useEffect(() => {
+		methods.reset(formValues, { keepDefaultValues: false, keepIsValid: false });
+		methods.clearErrors();
+		recalculateCredit();
+		return () => {
+			methods.reset();
+		};
+	}, [data]);
+
+	const handleRadioButtons = (e) => {
+		setFormValues({ ...formValues, radioButtonIds: e.target.value });
+		methods.setValue("radioButtonIds", e.target.value, { shouldDirty: true });
+	};
+
+	const recalculateCredit = () => {
+		setShowValidationError(false);
+		const credit = calculateCredit(methods.getValues(), isFiveToFifteen);
+		if (credit > 100) {
+			setShowValidationError(true);
+		}
+		setCredit(credit);
+	};
+
+	return (
+		<FormProvider {...methods}>
+			<Box
+				component="form"
+				id="modalForm"
+				noValidate
+				autoComplete="off"
+				onSubmit={(e) => {
+					e.stopPropagation();
+					methods.handleSubmit(onFormSubmit)(e);
+				}}
+			>
+				<Grid item xs={12} pb={0}>
+					<Typography variant="h5">{isNewForm ? "Add" : "Edit"} Modal Form</Typography>
+					<Typography variant="button" color="error.main">
+						* = required field
+					</Typography>
+				</Grid>
+				<Grid container spacing={1}>
+					<Grid item xs={12} pb={2}>
+						<FormTextItem
+							name="textField"
+							label="text Field"
+							gridColumns={5}
+							loaded={loaded}
+							required={true}
+							disabled={disabled}
+						/>
+					</Grid>
+					<Grid item xs={6} pb={2}>
+						<Typography variant="button">Checkboxes Numbered</Typography>
+						<FormCheckBoxItem
+							name="checkboxesNumbered.quarterly"
+							label="Checkbox 1 - 45%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesNumbered.quarterly ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesNumbered.semiAnnual"
+							label="Checkbox 2 - 25%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesNumbered.semiAnnual ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesNumbered.annual"
+							label="Checkbox 3 - 10%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesNumbered.annual ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesNumbered.none"
+							label="Checkbox 4 - 0%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesNumbered.none ?? false}
+							disabled={disabled}
+						/>
+					</Grid>
+					<Grid item xs={6} pb={2}>
+						<Grid item xs={12}>
+							<Typography variant="button">Checkbox Letters</Typography>
+						</Grid>
+						<FormCheckBoxItem
+							name="checkboxesLettered.twentyPercent"
+							label="A - 20%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesLettered.twentyPercent ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesLettered.fifteenPercent"
+							label="B - 15%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesLettered.fifteenPercent ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesLettered.tenPercent"
+							label="C - 10%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesLettered.tenPercent ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesLettered.fivePercent"
+							label="D - 5%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesLettered.fivePercent ?? false}
+							disabled={disabled}
+						/>
+						<FormCheckBoxItem
+							name="checkboxesLettered.zeroPercent"
+							label="E - 0%"
+							loaded={loaded}
+							onChange={recalculateCredit}
+							selected={formValues.checkboxesLettered.zeroPercent ?? false}
+							disabled={disabled}
+						/>
+					</Grid>
+					<Grid item xs={6} pb={2}>
+						<Grid item xs={12}>
+							<Typography variant="button" gutterBottom>
+								Modal Form Is
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Grid container direction="row">
+								<ControlledRadioButtonGroupItem
+									horizontal
+									name="radioButtonIds"
+									value={formValues.radioButtonIds}
+									buttons={radioButtons}
+									onRadioButtonChange={handleRadioButtons}
+									disabled={disabled}
+								/>
+							</Grid>
+						</Grid>
+					</Grid>
+
+					<Grid item xs={6} pb={2}>
+						<FormTextItem
+							gridColumns={8}
+							name="percentCoverageProvided"
+							label="% of Coverage Provided to Community"
+							loaded={loaded}
+							rules={numberFieldRulesWithMax}
+							disabled={disabled}
+						/>
+					</Grid>
+					<Grid item xs={6} pb={2}>
+						<Typography variant="h6" sx={{ paddingTop: 2 }}>
+							Total Modal Form Credit: {credit}
+						</Typography>
+						{showValidationError ? (
+							<Typography variant="caption" sx={{ color: theme.palette.error.main }} textAlign="right">
+								Total Modal Form Credit cannot exceed 100%
+							</Typography>
+						) : null}
+					</Grid>
+				</Grid>
+
+				<Grid container spacing={1} pt={2} mt={2}>
+					<Collapse in={showAlert} pb={2} mb={2}>
+						<Alert
+							action={
+								<IconButton
+									aria-label="close"
+									color="inherit"
+									size="small"
+									onClick={() => {
+										setShowAlert(false);
+									}}
+								>
+									<CloseIcon fontSize="inherit" />
+								</IconButton>
+							}
+							variant="outlined"
+							severity="error"
+						>
+							{serverErrors}
+						</Alert>
+					</Collapse>
+				</Grid>
+				<DevTool control={methods.control} />
+			</Box>
+		</FormProvider>
+	);
+};
+
+export default ModalForm;
