@@ -9,22 +9,6 @@ import { FormCheckBoxItem } from "./FormCheckBoxItem";
 import FormTextItem from "./FormTextItem";
 import { calculateCredit } from "./calculations";
 
-const numberFieldRulesWithMax = {
-	required: false,
-	min: {
-		value: 0,
-		message: `Please adjust field to be greater than or equal to 0%`,
-	},
-	max: {
-		value: 100,
-		message: `Please adjust field to not exceed 100%`,
-	},
-	pattern: {
-		value: /^[0-9\b]+$/,
-		message: `Please adjust field to not contain letters or special characters`,
-	},
-};
-
 const ModalForm = ({ onSave, data, setShowModal }) => {
 	const isNewForm = Object.keys(data).length === 0;
 	const [formValues, setFormValues] = useState(isNewForm ? {} : data);
