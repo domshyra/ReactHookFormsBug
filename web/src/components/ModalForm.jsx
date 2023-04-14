@@ -116,28 +116,44 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 							name="checkboxesNumbered.quarterly"
 							label="Checkbox 1 - 45%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesNumbered.quarterly", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesNumbered.quarterly ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.semiAnnual"
 							label="Checkbox 2 - 25%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesNumbered.semiAnnual", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesNumbered.semiAnnual ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.annual"
 							label="Checkbox 3 - 10%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesNumbered.annual", e.target.checked, { shouldDirty: true });
+							}}
 							selected={formValues.checkboxesNumbered.annual ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesNumbered.none"
 							label="Checkbox 4 - 0%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesNumbered.none", e.target.checked, { shouldDirty: true });
+							}}
 							selected={formValues.checkboxesNumbered.none ?? false}
 						/>
 					</Grid>
@@ -149,35 +165,60 @@ const ModalForm = ({ onSave, data, setShowModal }) => {
 							name="checkboxesLettered.twentyPercent"
 							label="A - 20%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesLettered.twentyPercent", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesLettered.twentyPercent ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.fifteenPercent"
 							label="B - 15%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesLettered.fifteenPercent", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesLettered.fifteenPercent ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.tenPercent"
 							label="C - 10%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesLettered.tenPercent", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesLettered.tenPercent ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.fivePercent"
 							label="D - 5%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesLettered.fivePercent", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesLettered.fivePercent ?? false}
 						/>
 						<FormCheckBoxItem
 							name="checkboxesLettered.zeroPercent"
 							label="E - 0%"
 							loaded={loaded}
-							onChange={recalculateCredit}
+							onChange={(e) => {
+								recalculateCredit();
+								methods.setValue("checkboxesLettered.zeroPercent", e.target.checked, {
+									shouldDirty: true,
+								});
+							}}
 							selected={formValues.checkboxesLettered.zeroPercent ?? false}
 						/>
 					</Grid>
